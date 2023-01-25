@@ -1,15 +1,16 @@
 import {
-    TopNavLinkProps
+    TopNavLinksProps
   } from '../../libs/common-ui/src/lib'
 
-export const dataTopNavLinks: TopNavLinkProps[] = [
+export const dataTopNavLinks: TopNavLinksProps = {
+    links : [
     {
         linkTo: "1",
         text: "Dashboard"
     },
     {
         linkTo: "2",
-        text: "Marketploace"
+        text: "Marketplace"
     },
     {
         linkTo: "3",
@@ -19,4 +20,4 @@ export const dataTopNavLinks: TopNavLinkProps[] = [
         linkTo: "4",
         text: "Blog"
     },
-]
+]}

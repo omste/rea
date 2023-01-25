@@ -4,16 +4,17 @@ import styles from './index.module.css';
 import {
   Logo,
   TopNavLink,
-  TopNavLinkProps
+  TopNavLinkProps,
+  TopNavLinks,
+  TopNavLinksProps,
 } from '../../../libs/common-ui/src/lib';
 import { dataTopNavLinks } from '../mocks';
 
-
 export interface IndexProps {
-  dataTopNavLinks: TopNavLinkProps[]
+  dataTopNavLinks: TopNavLinksProps;
 }
 
-export function Index({dataTopNavLinks} : IndexProps) {
+export function Index({ dataTopNavLinks }: IndexProps) {
   console.log(dataTopNavLinks);
   return (
     <div className={styles.page}>
@@ -21,12 +22,7 @@ export function Index({dataTopNavLinks} : IndexProps) {
       <div className="wrapper">
         <div className="container">
           <div id="welcome">
-            {dataTopNavLinks.map((link, idx) => {
-            return (
-              <TopNavLink text={link.text} linkTo={link.linkTo} key={idx} />
-            )  
-          })
-            }  
+            <TopNavLinks links={dataTopNavLinks.links} />
           </div>
 
           <p id="love">
@@ -56,7 +52,7 @@ export default Index;
 export async function getServerSideProps(context: GetStaticPropsContext) {
   return {
     props: {
-      dataTopNavLinks
+      dataTopNavLinks,
     },
   };
 }
