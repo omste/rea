@@ -1,5 +1,6 @@
 import { GetStaticPropsContext } from 'next';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 import styles from './index.module.css';
 // TO DO : fix nx export not being found using @
 import {
@@ -25,7 +26,9 @@ export function Index({ dataTopNavLinks }: IndexProps) {
         <div className="container">
           <div id="welcome">
             <TopNavLinks links={dataTopNavLinks.links} />
-            <UserIcon className="w-[32px] hover:stroke-slate-500 hover:fill-black hover:cursor-pointer " />
+            <div onClick={() => setShowModal(true)}>
+              <UserIcon className="w-[32px] hover:stroke-slate-500 hover:fill-black hover:cursor-pointer " />
+            </div>
           </div>
 
           <p id="love">
@@ -34,7 +37,7 @@ export function Index({ dataTopNavLinks }: IndexProps) {
           </p>
         </div>
       </div>
-      <button
+      {/* <button
         className="px-4 py-2 text-purple-100 bg-purple-600 rounded-md"
         type="button"
         onClick={() => {
@@ -42,8 +45,25 @@ export function Index({ dataTopNavLinks }: IndexProps) {
         }}
       >
         Open Modal
-      </button>
-      {showModal && <Modal setOpenModal={setShowModal} />}
+      </button> */}
+      <>
+        <Transition
+          show={showModal}
+          // enter="ease-out duration-300"
+          // enterFrom="opacity-0 scale-95"
+          // enterTo="opacity-100 scale-100"
+          // leave="ease-in duration-200"
+          // leaveFrom="opacity-100 scale-100"
+          // leaveTo="opacity-0 scale-95"
+        enter="transition-opacity duration-75"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-150"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        ><Modal setOpenModal={setShowModal} /></Transition>
+      </>
+      {/* {showModal && <Modal setOpenModal={setShowModal} />} */}
     </div>
   );
 }
