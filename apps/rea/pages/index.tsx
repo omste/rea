@@ -22,6 +22,7 @@ export interface IndexProps {
 
 export function Index({ dataTopNavLinks, pokies }: IndexProps) {
   const [showModal, setShowModal] = useState(false);
+  console.log(pokies);
   return (
     <div className={styles.page}>
       <Logo linkTo="/" />
@@ -68,43 +69,26 @@ export default Index;
 export async function getStaticProps() {
   const { data } = await client.query({
     query: gql`
-    query samplePokeAPIquery {
-      pokemon_v2_pokemonspeciesdescription_aggregate {
-        nodes {
-          description
+    query MyQuery {
+      pokemon_v2_pokemontype(limit: 10) {
+        pokemon_v2_pokemon {
           id
-          language_id
-          pokemon_v2_language {
-            name
-            pokemon_v2_abilityflavortexts {
-              flavor_text
-              language_id
-            }
-            pokemon_v2_berryflavornames {
-              name
-            }
-            pokemon_v2_pokemoncolornames {
-              name
-            }
+          name
+          pokemon_v2_pokemonsprites {
+            sprites
+            pokemon_id
           }
-          pokemon_v2_pokemonspecy {
-            pokemon_v2_pokemons {
-              pokemon_v2_pokemonforms_aggregate {
-                nodes {
-                  pokemon_v2_pokemonformsprites {
-                    sprites
-                  }
-                }
-              }
-            }
+        }
+        pokemon_v2_type {
+          id
+          name
+          pokemon_v2_berries {
+            id
+            name
           }
         }
       }
-      pokemon_v2_type {
-        name
-      }
     }
-    
     `,
   });
 

@@ -2,7 +2,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
 import React from 'react';
-import './App.css';
+// import './App.css';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
