@@ -2,7 +2,9 @@ import { GetStaticPropsContext } from 'next';
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import styles from './index.module.css';
-// TO DO : fix nx export not being found using @
+import { gql } from "@apollo/client";
+import client from "../apollo-client";
+
 import {
   Logo,
   TopNavLinks,
@@ -15,9 +17,10 @@ import { dataTopNavLinks } from '../mocks';
 
 export interface IndexProps {
   dataTopNavLinks: TopNavLinksProps;
+  pokies: any;
 }
 
-export function Index({ dataTopNavLinks }: IndexProps) {
+export function Index({ dataTopNavLinks, pokies }: IndexProps) {
   const [showModal, setShowModal] = useState(false);
   return (
     <div className={styles.page}>
@@ -37,15 +40,7 @@ export function Index({ dataTopNavLinks }: IndexProps) {
           </p>
         </div>
       </div>
-      {/* <button
-        className="px-4 py-2 text-purple-100 bg-purple-600 rounded-md"
-        type="button"
-        onClick={() => {
-          setShowModal(true);
-        }}
-      >
-        Open Modal
-      </button> */}
+
       <>
         <Transition
           show={showModal}
@@ -70,10 +65,53 @@ export function Index({ dataTopNavLinks }: IndexProps) {
 
 export default Index;
 
-export async function getServerSideProps(context: GetStaticPropsContext) {
+export async function getStaticProps() {
+  const { data } = await client.query({
+    query: gql`
+    query samplePokeAPIquery {
+      pokemon_v2_pokemonspeciesdescription_aggregate {
+        nodes {
+          description
+          id
+          language_id
+          pokemon_v2_language {
+            name
+            pokemon_v2_abilityflavortexts {
+              flavor_text
+              language_id
+            }
+            pokemon_v2_berryflavornames {
+              name
+            }
+            pokemon_v2_pokemoncolornames {
+              name
+            }
+          }
+          pokemon_v2_pokemonspecy {
+            pokemon_v2_pokemons {
+              pokemon_v2_pokemonforms_aggregate {
+                nodes {
+                  pokemon_v2_pokemonformsprites {
+                    sprites
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      pokemon_v2_type {
+        name
+      }
+    }
+    
+    `,
+  });
+
   return {
     props: {
       dataTopNavLinks,
+      pokies: data
     },
-  };
+ };
 }
